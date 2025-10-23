@@ -18,6 +18,15 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length > 0) {
+            if (args[0].equals("-v") || args[0].equals("--version")) {
+                String version = "JNote v0.1.0-alpha\nBuild: Pre-release";
+
+                System.out.println(version);
+                return;
+            }
+        }
+
         Scanner sc = new Scanner(System.in);
 
         System.out.println("To Create a Note, enter 'Note'.");
