@@ -36,7 +36,7 @@ public class Main {
             String noteFilepath = sc.nextLine().trim();
 
             if (noteFilepath.isEmpty()) {
-                noteFilepath = defaultPath;  // Now uses dynamic path
+                noteFilepath = defaultPath;
             }
 
             System.out.println("Enter Note Content (type 'END' on a new line to finish): ");
@@ -75,6 +75,10 @@ public class Main {
                 folder.mkdirs();
             }
 
+            if (!checkIfNoteAlreadyExists(title, filepath)) {
+                return;
+            }
+
             BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
             bw.write(content);
             bw.close();
@@ -94,5 +98,22 @@ public class Main {
         } catch (IOException ioe) {
             System.out.println("\nError writing file: " + ioe.getMessage());
         }
+    }
+
+    public static boolean checkIfNoteAlreadyExists(String title, String filepath) {
+        File newNote = new File(filepath);
+
+        if (newNote.exists()) {
+            Scanner sc = new Scanner(System.in);
+
+            System.out.println("\n" + title + " already exists, Overwrite? (Y/N): ");
+            String ans = sc.nextLine().trim();
+
+            if (!ans.equalsIgnoreCase("y")) {
+                System.out.println("Cancelled. Note not saved.");
+                return false;
+            }
+        }
+        return true;
     }
 }
