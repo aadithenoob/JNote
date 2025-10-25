@@ -4,6 +4,7 @@ releases/
 !**/src/main/**/target/
 !**/src/test/**/target/
 .kotlin
+build-portable.bat
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
