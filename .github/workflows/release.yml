@@ -1,0 +1,130 @@
+name: Build Portable Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-release:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          $version = "${{ github.ref_name }}" -replace '^v', ''
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+      - name: Build with Maven
+        run: mvn clean package -q
+
+      - name: Create portable release
+        run: |
+          $VERSION = "${{ steps.get_version.outputs.VERSION }}"
+          $BUILD_DIR = "JNote Portable ($VERSION)"
+          $JAR_NAME = "jnote-$VERSION.jar"
+          $ZIP_NAME = "JNote-$VERSION-portable.zip"
+          
+          New-Item -ItemType Directory -Force -Path $BUILD_DIR
+          $SOURCE_JAR = Get-ChildItem -Path target\*.jar | Select-Object -First 1
+          Copy-Item $SOURCE_JAR.FullName "$BUILD_DIR\$JAR_NAME"
+          
+          $MODULES = jdeps --ignore-missing-deps --print-module-deps $SOURCE_JAR.FullName
+          if ([string]::IsNullOrWhiteSpace($MODULES)) {
+            $MODULES = "java.base,java.desktop"
+          }
+          Write-Host "Detected modules: $MODULES"
+          jlink --add-modules $MODULES --output "$BUILD_DIR\runtime" --strip-debug --no-header-files --no-man-pages --compress=2
+          
+          @"
+          @echo off
+          runtime\bin\java.exe -jar $JAR_NAME %*
+          "@ | Out-File -FilePath "$BUILD_DIR\jnote.bat" -Encoding ASCII
+          
+          @"
+          #!/bin/bash
+          DIR="`$( cd "`$( dirname "`${BASH_SOURCE[0]}" )" && pwd )"
+          "`$DIR/runtime/bin/java" -jar "`$DIR/$JAR_NAME" "`$@"
+          "@ | Out-File -FilePath "$BUILD_DIR\jnote" -Encoding ASCII
+          
+          @"
+          @echo off
+          echo Installing JNote...
+          echo.
+          setx PATH "%PATH%;%CD%"
+          echo.
+          echo JNote installed! Restart your terminal and type 'jnote' to use it.
+          pause
+          "@ | Out-File -FilePath "$BUILD_DIR\install.bat" -Encoding ASCII
+          
+          @"
+          #!/bin/bash
+          echo "Installing JNote..."
+          INSTALL_DIR="`$HOME/.local/bin"
+          mkdir -p "`$INSTALL_DIR"
+          ln -sf "`$(pwd)/jnote" "`$INSTALL_DIR/jnote"
+          chmod +x "`$(pwd)/jnote"
+          echo ""
+          echo "JNote installed! Type 'jnote' to use it."
+          "@ | Out-File -FilePath "$BUILD_DIR\install.sh" -Encoding ASCII
+          
+          @"
+          JNote v$VERSION
+          ==================
+          
+          QUICK START:
+          
+          Windows:
+            1. Run install.bat
+            2. Restart your terminal
+            3. Type: jnote
+          
+          Linux/Mac:
+            1. Run: chmod +x install.sh && ./install.sh
+            2. Type: jnote
+          
+          MANUAL USAGE (without installing):
+            Windows: jnote.bat [your arguments]
+            Linux/Mac: ./jnote [your arguments]
+          
+          No Java installation required - JNote includes its own runtime!
+          "@ | Out-File -FilePath "$BUILD_DIR\README.txt" -Encoding ASCII
+          
+          Compress-Archive -Path $BUILD_DIR -DestinationPath $ZIP_NAME -Force
+          
+          echo "ZIP_NAME=$ZIP_NAME" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+        id: build
+
+      - name: Create Draft Release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          files: JNote-*-portable.zip
+          name: JNote ${{ steps.get_version.outputs.VERSION }}
+          body: |
+            ## What's Changed
+            
+            *Edit this section with your release notes*
+            
+            ---
+            
+            ### Installation
+            1. Download `JNote-${{ steps.get_version.outputs.VERSION }}-portable.zip`
+            2. Extract and run `install.bat` (Windows) or `install.sh` (Linux/Mac)
+            3. Type `jnote` to use!
+            
+            No Java installation required - includes its own runtime.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
