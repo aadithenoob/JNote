@@ -10,7 +10,7 @@ import java.nio.file.*;
 import java.util.*;
 
 public class MetadataManager {
-    private static final String METADATA_FILE = "W:\\JNote Storage\\notes_metadata.json";
+    private static final String METADATA_FILE = Main.getDefaultStoragePath() + File.separator + "notes-metadata.json";
 
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
