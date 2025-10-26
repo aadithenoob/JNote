@@ -46,4 +46,9 @@ public class MetadataManager {
 
         return gson.fromJson(json, listType);
     }
+
+    public static void saveAllMetadata(List<NoteMetadata> notes) throws IOException {
+        String json = gson.toJson(notes);
+        Files.writeString(Paths.get(METADATA_FILE), json);
+    }
 }
