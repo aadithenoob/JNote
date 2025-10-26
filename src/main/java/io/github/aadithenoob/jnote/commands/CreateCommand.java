@@ -11,10 +11,10 @@ import java.util.Scanner;
         mixinStandardHelpOptions = true)
 
 public class CreateCommand implements Runnable {
-    @Option(names = {"-t", "--title"}, description = "Note title with extension (e.g., note.md)")
+    @Parameters(index = "0", description = "Note title with extension (e.g., note.md). Default extension '.md'")
     private String noteTitle;
 
-    @Option(names = {"-f", "--filepath"}, description = "Optional: Directory path to save the note")
+    @Parameters(index = "1", arity = "0..1", description = "Directory path to save the note (optional)")
     private String noteFilepath;
 
     String defaultPath = Main.getDefaultStoragePath();
