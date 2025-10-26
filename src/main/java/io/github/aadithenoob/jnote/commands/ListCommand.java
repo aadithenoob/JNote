@@ -7,7 +7,7 @@ import picocli.CommandLine.*;
 import java.util.List;
 
 @Command(name = "list",
-        description = "List all saved notes.",
+        description = "List all saved notes",
         mixinStandardHelpOptions = true)
 public class ListCommand implements Runnable {
 
