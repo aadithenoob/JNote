@@ -32,7 +32,7 @@ public class CreateCommand implements Runnable {
             }
 
             if (noteFilepath == null || noteFilepath.trim().isEmpty()) {
-                System.out.println("Enter Note Filepath excluding Note Name (use \\\\ for \\). (e.g., C:\\\\Users\\\\JohnSmith). Enter for Default (" + defaultPath + "): ");
+                System.out.println("Enter Note Filepath excluding Note Name (e.g., C:\\Users\\JohnSmith). Enter for Default (" + defaultPath + "): ");
                 noteFilepath = sc.nextLine().trim();
 
                 if (noteFilepath.isEmpty()) {
