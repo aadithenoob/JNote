@@ -25,10 +25,10 @@ public class CreateCommand implements Runnable {
             if (noteTitle == null || noteTitle.trim().isEmpty()) {
                 System.out.println("Enter Note Title with Extension (e.g., note.md). Default: '.md' if none: ");
                 noteTitle = sc.nextLine().trim();
+            }
 
-                if (!noteTitle.contains(".")) {
-                    noteTitle += ".md";
-                }
+            if (!noteTitle.contains(".")) {
+                noteTitle += ".md";
             }
 
             if (noteFilepath == null || noteFilepath.trim().isEmpty()) {
