@@ -1,6 +1,7 @@
 package io.github.aadithenoob.jnote;
 
 import io.github.aadithenoob.jnote.commands.CreateCommand;
+import io.github.aadithenoob.jnote.commands.DeleteCommand;
 import io.github.aadithenoob.jnote.commands.ListCommand;
 import io.github.aadithenoob.jnote.models.Note;
 import io.github.aadithenoob.jnote.utils.MetadataManager;
@@ -13,7 +14,7 @@ import java.util.Scanner;
 @Command(name = "jnote",
         mixinStandardHelpOptions = true,
         version = "JNote v0.2.0-alpha\nBuild: Pre-release",
-        subcommands = {CreateCommand.class, ListCommand.class})
+        subcommands = {CreateCommand.class, ListCommand.class, DeleteCommand.class})
 public class Main implements Runnable {
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
