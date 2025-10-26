@@ -113,5 +113,11 @@ PS> jnote list
 * Metadata stored as JSON in `notes-metadata.json`.
 * Search functionality will be added in future versions.
 
+---
+## Contributing
+Pull requests and feature suggestions are welcome!  
+Open an issue if you find a bug or have an idea for improvement.
+
+---
 ## License
 MIT
