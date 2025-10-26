@@ -1,20 +1,20 @@
-package org.example;
+package io.github.aadithenoob.jnote.commands;
 
-import picocli.*;
+import io.github.aadithenoob.jnote.Main;
 import picocli.CommandLine.*;
 
 import java.io.File;
 import java.util.Scanner;
 
 @Command(name = "create",
-        description = "Create note directly through arguments.",
+        description = "Create note directly through arguments",
         mixinStandardHelpOptions = true)
 
 public class CreateCommand implements Runnable {
-    @Option(names = {"-t", "--title"}, description = "Note title with extension (e.g., note.md).")
+    @Option(names = {"-t", "--title"}, description = "Note title with extension (e.g., note.md)")
     private String noteTitle;
 
-    @Option(names = {"-f", "--filepath"}, description = "Optional: Directory path to save the note.")
+    @Option(names = {"-f", "--filepath"}, description = "Optional: Directory path to save the note")
     private String noteFilepath;
 
     String defaultPath = Main.getDefaultStoragePath();

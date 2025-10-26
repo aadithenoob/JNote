@@ -1,8 +1,11 @@
-package org.example;
+package io.github.aadithenoob.jnote.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import io.github.aadithenoob.jnote.Main;
+import io.github.aadithenoob.jnote.models.Note;
+import io.github.aadithenoob.jnote.models.NoteMetadata;
 
 import java.io.*;
 import java.lang.reflect.Type;

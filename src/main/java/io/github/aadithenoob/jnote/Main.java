@@ -1,5 +1,9 @@
-package org.example;
+package io.github.aadithenoob.jnote;
 
+import io.github.aadithenoob.jnote.commands.CreateCommand;
+import io.github.aadithenoob.jnote.commands.ListCommand;
+import io.github.aadithenoob.jnote.models.Note;
+import io.github.aadithenoob.jnote.utils.MetadataManager;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 
@@ -9,9 +13,8 @@ import java.util.Scanner;
 @Command(name = "jnote",
         mixinStandardHelpOptions = true,
         version = "JNote v0.2.0-alpha\nBuild: Pre-release",
-        subcommands = {CreateCommand.class})
+        subcommands = {CreateCommand.class, ListCommand.class})
 public class Main implements Runnable {
-
     public static void main(String[] args) {
         int exitCode = new CommandLine(new Main()).execute(args);
         System.exit(exitCode);
@@ -19,7 +22,7 @@ public class Main implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("JNote: Simple command-line text-file creation utility.");
+        System.out.println("JNote: Simple command-line note creation utility.");
         System.out.println("Use 'jnote create' or 'jnote --help' for usage.");
     }
 

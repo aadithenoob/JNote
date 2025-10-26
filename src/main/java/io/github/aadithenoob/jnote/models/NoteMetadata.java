@@ -1,4 +1,4 @@
-package org.example;
+package io.github.aadithenoob.jnote.models;
 
 public class NoteMetadata {
     private final String id;
