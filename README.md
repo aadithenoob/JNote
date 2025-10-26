@@ -1,6 +1,6 @@
 # JNote
 
-Hobby-project and command-line utility for creating and managing text files with metadata tracking, only for Windows as of right now.\
+Command-line utility for creating and managing text files with metadata tracking, only for Windows as of right now.\
 *(Future releases will have MacOS & Linux support)*
 
 ## Installation
