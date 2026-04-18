@@ -1,6 +1,6 @@
 # JNote
 
-**(THIS PROJECT IS MAINLY ABANDONED (AS IT WAS FOR LEARNING), BUT IF ANYONE WANTS TO CONTRIBUTE, THEY ARE WELCOME TO.)
+**(THIS PROJECT IS MAINLY ABANDONED (AS IT WAS FOR LEARNING), BUT IF ANYONE WANTS TO CONTRIBUTE, THEY ARE WELCOME TO.)**
 
 Command-line utility for creating and managing text files with metadata tracking, only for Windows as of right now.\
 *(Future releases will have MacOS & Linux support)*
